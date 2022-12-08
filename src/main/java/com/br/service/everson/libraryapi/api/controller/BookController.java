@@ -1,6 +1,6 @@
 package com.br.service.everson.libraryapi.api.controller;
 
-import com.br.service.everson.libraryapi.api.dto.output.BookRequestDto;
+import com.br.service.everson.libraryapi.api.dto.input.BookRequestDto;
 import com.br.service.everson.libraryapi.api.dto.output.BookResponseDto;
 import com.br.service.everson.libraryapi.domain.model.Book;
 import com.br.service.everson.libraryapi.domain.repository.BookRepository;

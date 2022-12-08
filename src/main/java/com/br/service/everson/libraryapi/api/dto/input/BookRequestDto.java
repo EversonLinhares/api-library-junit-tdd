@@ -1,4 +1,4 @@
-package com.br.service.everson.libraryapi.api.dto.output;
+package com.br.service.everson.libraryapi.api.dto.input;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
