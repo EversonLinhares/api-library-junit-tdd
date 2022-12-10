@@ -1,7 +1,7 @@
-package com.br.service.everson.libraryapi.api.controller;
+package com.br.service.everson.libraryapi.api.book.controller;
 
 
-import com.br.service.everson.libraryapi.api.dto.input.BookRequestDto;
+import com.br.service.everson.libraryapi.api.dto.input.BookInputDto;
 import com.br.service.everson.libraryapi.domain.model.Book;
 import com.br.service.everson.libraryapi.domain.repository.BookRepository;
 import com.br.service.everson.libraryapi.domain.service.BookService;
@@ -50,7 +50,7 @@ public class BookControllerTest {
     @DisplayName("Deve criar livro com sucesso")
     public void createBookTest() throws Exception {
 
-        BookRequestDto bookRequestDto = BookRequestDto.builder()
+        BookInputDto bookInputDto = BookInputDto.builder()
                 .author("arthur")
                 .title("as aventuras").build();
 
@@ -58,7 +58,7 @@ public class BookControllerTest {
 
         BDDMockito.given(bookService.save(Mockito.any(Book.class))).willReturn(savedBook);
 
-        String json = mapper.writeValueAsString(bookRequestDto);
+        String json = mapper.writeValueAsString(bookInputDto);
 
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -71,8 +71,8 @@ public class BookControllerTest {
                 .perform(request)
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").value(1))
-                .andExpect(jsonPath("title").value(bookRequestDto.getTitle()))
-                .andExpect(jsonPath("author").value(bookRequestDto.getAuthor()))
+                .andExpect(jsonPath("title").value(bookInputDto.getTitle()))
+                .andExpect(jsonPath("author").value(bookInputDto.getAuthor()))
         ;
 
     }
@@ -82,7 +82,7 @@ public class BookControllerTest {
     @DisplayName("Deve lançar erro de validação quando não houver dados necessarios")
     public void createInvalidBookTest() throws Exception {
 
-        String json = mapper.writeValueAsString(new BookRequestDto());
+        String json = mapper.writeValueAsString(new BookInputDto());
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post(BOOK_API)
@@ -100,7 +100,7 @@ public class BookControllerTest {
     @DisplayName("Deve lançar erro ao tentar cadastrar um livro com mesmo titulo de outro")
     public void createBookWithDuplicatedTitle() throws Exception{
 
-        BookRequestDto dto = createNewBook();
+        BookInputDto dto = createNewBook();
         String mensagemErro = "O titulo já existe em outro livro";
         String json = mapper.writeValueAsString(dto);
         BDDMockito.given(bookService.save(Mockito.any(Book.class)))
@@ -119,7 +119,7 @@ public class BookControllerTest {
                         .value(mensagemErro));
     }
 
-    private BookRequestDto createNewBook(){
-        return BookRequestDto.builder().author("arthur").title("as aventuras").build();
+    private BookInputDto createNewBook(){
+        return BookInputDto.builder().author("arthur").title("as aventuras").build();
     }
 }

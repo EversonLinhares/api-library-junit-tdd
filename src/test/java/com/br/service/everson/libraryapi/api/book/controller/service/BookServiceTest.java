@@ -1,4 +1,4 @@
-package com.br.service.everson.libraryapi.api.service;
+package com.br.service.everson.libraryapi.api.book.controller.service;
 
 import com.br.service.everson.libraryapi.domain.service.exception.BusinessException;
 import com.br.service.everson.libraryapi.domain.model.Book;
