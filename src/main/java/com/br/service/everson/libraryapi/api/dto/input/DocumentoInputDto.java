@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.br.CPF;
 @Data
 public class DocumentoInputDto {
 
-
     @CPF
     private String cpf;
 

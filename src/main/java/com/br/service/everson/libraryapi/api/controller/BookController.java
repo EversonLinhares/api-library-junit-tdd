@@ -2,6 +2,7 @@ package com.br.service.everson.libraryapi.api.controller;
 
 import com.br.service.everson.libraryapi.api.dto.input.BookInputDto;
 import com.br.service.everson.libraryapi.api.dto.output.BookOutputDto;
+import com.br.service.everson.libraryapi.core.modelmapper.MapperConvert;
 import com.br.service.everson.libraryapi.domain.model.Book;
 import com.br.service.everson.libraryapi.domain.repository.BookRepository;
 import com.br.service.everson.libraryapi.domain.service.BookService;
@@ -26,6 +27,9 @@ public class BookController {
     @Autowired
     BookRepository bookRepository;
 
+    @Autowired
+    MapperConvert mapperConvert;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<BookOutputDto> create(@RequestBody @Valid BookInputDto bookInputDto) {
@@ -38,6 +42,6 @@ public class BookController {
     @GetMapping
     public ResponseEntity <List<BookOutputDto>> findAll(){
         List<Book> listaBooks = bookRepository.findAll();
-        return ResponseEntity.ok().body(listaBooks.stream().map(b -> modelMapper.map(b, BookOutputDto.class)).collect(Collectors.toList()));
+        return ResponseEntity.ok().body(mapperConvert.collectionToDto(listaBooks,BookOutputDto.class));
     }
 }

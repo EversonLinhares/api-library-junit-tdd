@@ -1,6 +1,5 @@
 package com.br.service.everson.libraryapi.api.dto.input;
 
-import com.br.service.everson.libraryapi.domain.model.Endereco;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

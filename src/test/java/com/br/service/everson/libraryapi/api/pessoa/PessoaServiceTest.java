@@ -1,4 +1,4 @@
-package com.br.service.everson.libraryapi.api.pessoa.service;
+package com.br.service.everson.libraryapi.api.pessoa;
 
 import com.br.service.everson.libraryapi.LibraryApiApplicationTests;
 import com.br.service.everson.libraryapi.domain.model.Documento;

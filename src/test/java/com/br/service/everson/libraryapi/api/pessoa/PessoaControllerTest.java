@@ -1,32 +1,30 @@
-package com.br.service.everson.libraryapi.api.pessoa.controller;
+package com.br.service.everson.libraryapi.api.pessoa;
 
 import com.br.service.everson.libraryapi.api.dto.input.PessoaInputDto;
 import com.br.service.everson.libraryapi.api.dto.output.PessoaOutputDto;
 import com.br.service.everson.libraryapi.api.pessoa.stub.PessoaStub;
-import com.br.service.everson.libraryapi.domain.model.Pessoa;
 import com.br.service.everson.libraryapi.domain.service.PessoaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
 @SpringBootTest
 public class PessoaControllerTest {
+
+    static String PESSOA = "/pessoa";
 
     @Autowired
     MockMvc mockMvc;
@@ -34,17 +32,29 @@ public class PessoaControllerTest {
     @MockBean
     PessoaService pessoaService;
 
-    @MockBean
-    ModelMapper modelMapper;
-
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-//    @Test
-//    void deveCadastrarPessoaComStatus201(){
-//        PessoaInputDto pessoa = modelMapper.map(PessoaStub.getPessoa(),PessoaInputDto.class);
-//
-//        Mockito.when(pessoaService.create(Mockito.any(PessoaInputDto.class))).thenReturn(pessoa);
-//    }
+    @Test
+    @DisplayName("Deve cadastrar uma pessoa e retornar PessoaOutputDto com status 201 create")
+    void deveCadastrarPessoaRertornarDtoComStatus201() throws Exception {
+        PessoaOutputDto pessoa = PessoaStub.getPessoaOutputDto();
+
+        Mockito.when(pessoaService.create(Mockito.any(PessoaInputDto.class))).thenReturn(pessoa);
+
+        String json = objectMapper.writeValueAsString(pessoa);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(PESSOA)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        mockMvc.perform(request)
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").value(1L))
+                .andExpect(jsonPath("nome").value(pessoa.getNome()));
+
+    }
 
 //    @Test
 //    void deveRetornarListaVaziaStatus204() throws Exception {
