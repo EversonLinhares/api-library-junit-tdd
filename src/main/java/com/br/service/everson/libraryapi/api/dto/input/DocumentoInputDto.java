@@ -8,9 +8,7 @@ public class DocumentoInputDto {
 
     @CPF
     private String cpf;
-
     private String rg;
-
     private String tituloEleitor;
 
 }

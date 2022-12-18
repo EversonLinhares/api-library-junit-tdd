@@ -4,12 +4,10 @@ import com.br.service.everson.libraryapi.api.dto.input.DocumentoInputDto;
 import com.br.service.everson.libraryapi.api.dto.input.PessoaInputDto;
 import com.br.service.everson.libraryapi.api.dto.output.PessoaOutputDto;
 import com.br.service.everson.libraryapi.core.modelmapper.MapperConvert;
-import com.br.service.everson.libraryapi.core.modelmapper.ModelMapperConfig;
 import com.br.service.everson.libraryapi.domain.model.Documento;
 import com.br.service.everson.libraryapi.domain.model.Pessoa;
 import com.br.service.everson.libraryapi.domain.repository.DocumentoRepository;
 import com.br.service.everson.libraryapi.domain.repository.PessoaRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,10 +20,6 @@ import java.util.Optional;
 
 @Service
 public class PessoaService {
-
-    @Autowired
-    ModelMapper modelMapper;
-
     @Autowired
     PessoaRepository pessoaRepository;
 
@@ -36,16 +30,16 @@ public class PessoaService {
     MapperConvert mapperConvert;
 
     public PessoaOutputDto create (PessoaInputDto pessoaInputDto){
-        Documento doc = modelMapper.map(pessoaInputDto.getDocumento(), Documento.class);
+        Documento doc = mapperConvert.mapDtoToEntity(pessoaInputDto.getDocumento(), Documento.class);
         Documento documento = validarDocumento(doc);
 
         Optional<Pessoa> pessoa = pessoaRepository.buscarPeloCPF(doc.getCpf());
 
         if(pessoa.isEmpty()){
-           pessoaInputDto.setDocumento(modelMapper.map(documento, DocumentoInputDto.class));
-           Pessoa p = modelMapper.map(pessoaInputDto, Pessoa.class);
+           pessoaInputDto.setDocumento(mapperConvert.mapEntityToDto(documento, DocumentoInputDto.class));
+           Pessoa p = mapperConvert.mapDtoToEntity(pessoaInputDto, Pessoa.class);
            p = pessoaRepository.save(p);
-           return modelMapper.map(p, PessoaOutputDto.class);
+           return mapperConvert.mapEntityToDto(p, PessoaOutputDto.class);
         }
 
         Pessoa pessoaCadastrada = pessoa.get();

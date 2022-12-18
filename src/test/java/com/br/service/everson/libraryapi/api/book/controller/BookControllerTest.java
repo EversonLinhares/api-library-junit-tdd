@@ -2,23 +2,21 @@ package com.br.service.everson.libraryapi.api.book.controller;
 
 
 import com.br.service.everson.libraryapi.api.dto.input.BookInputDto;
-import com.br.service.everson.libraryapi.domain.model.Book;
+import com.br.service.everson.libraryapi.api.dto.output.BookOutputDto;
 import com.br.service.everson.libraryapi.domain.repository.BookRepository;
 import com.br.service.everson.libraryapi.domain.service.BookService;
 import com.br.service.everson.libraryapi.domain.service.exception.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,10 +25,9 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@WebMvcTest
 @AutoConfigureMockMvc
+@SpringBootTest
 public class BookControllerTest {
 
     static String BOOK_API = "/api/books";
@@ -54,9 +51,9 @@ public class BookControllerTest {
                 .author("arthur")
                 .title("as aventuras").build();
 
-        Book savedBook = Book.builder().id(1L).author("arthur").title("as aventuras").build();
+        BookOutputDto savedBook = BookOutputDto.builder().id(1L).author("arthur").title("as aventuras").build();
 
-        BDDMockito.given(bookService.save(Mockito.any(Book.class))).willReturn(savedBook);
+        BDDMockito.given(bookService.create(Mockito.any(BookInputDto.class))).willReturn(savedBook);
 
         String json = mapper.writeValueAsString(bookInputDto);
 
@@ -103,7 +100,7 @@ public class BookControllerTest {
         BookInputDto dto = createNewBook();
         String mensagemErro = "O titulo já existe em outro livro";
         String json = mapper.writeValueAsString(dto);
-        BDDMockito.given(bookService.save(Mockito.any(Book.class)))
+        BDDMockito.given(bookService.create(Mockito.any(BookInputDto.class)))
                 .willThrow(new BusinessException(mensagemErro));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders

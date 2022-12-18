@@ -13,7 +13,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class BookInputDto {
 
-    private Long id;
     @NotBlank
     private String title;
     @NotBlank

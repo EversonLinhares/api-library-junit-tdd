@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +26,10 @@ public class MapperConvert {
 
     public <D, E> List<D> collectionToDto(List<E> listEntities, Class<D> dtoClass){
         return listEntities.stream().map(l -> mapEntityToDto(l,dtoClass)).collect(Collectors.toList());
+    }
+
+    public <E, D> List<E> collectionToEntity(List<D> listDtoClass, Class<E> entities){
+        return listDtoClass.stream().map(l -> mapDtoToEntity(listDtoClass,entities)).collect(Collectors.toList());
     }
 
 
