@@ -3,6 +3,7 @@ package com.br.service.everson.libraryapi.domain.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
@@ -31,7 +32,7 @@ public class Pessoa {
     @Embedded
     private Endereco endereco;
 
-    @OneToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-    @JoinColumn(name = "documento_id", nullable = false)
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "documento_id")
     private Documento documento;
 }

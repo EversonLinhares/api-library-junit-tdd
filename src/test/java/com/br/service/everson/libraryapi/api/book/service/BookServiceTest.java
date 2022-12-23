@@ -1,4 +1,4 @@
-package com.br.service.everson.libraryapi.api.book.controller.service;
+package com.br.service.everson.libraryapi.api.book.service;
 
 import com.br.service.everson.libraryapi.api.dto.input.BookInputDto;
 import com.br.service.everson.libraryapi.api.dto.output.BookOutputDto;

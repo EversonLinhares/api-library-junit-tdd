@@ -29,6 +29,7 @@ public class PessoaService {
     @Autowired
     MapperConvert mapperConvert;
 
+    @Transactional
     public PessoaOutputDto create (PessoaInputDto pessoaInputDto){
         Documento doc = mapperConvert.mapDtoToEntity(pessoaInputDto.getDocumento(), Documento.class);
         Documento documento = validarDocumento(doc);
@@ -36,8 +37,8 @@ public class PessoaService {
         Optional<Pessoa> pessoa = pessoaRepository.buscarPeloCPF(doc.getCpf());
 
         if(pessoa.isEmpty()){
-           pessoaInputDto.setDocumento(mapperConvert.mapEntityToDto(documento, DocumentoInputDto.class));
            Pessoa p = mapperConvert.mapDtoToEntity(pessoaInputDto, Pessoa.class);
+           p.setDocumento(documento);
            p = pessoaRepository.save(p);
            return mapperConvert.mapEntityToDto(p, PessoaOutputDto.class);
         }
@@ -47,18 +48,20 @@ public class PessoaService {
         return mapperConvert.mapEntityToDto(pessoaCadastrada, PessoaOutputDto.class);
     }
 
-    @Transactional
+
     public Documento validarDocumento(Documento documentoInput) {
         Optional<Documento> documento = documentoRepository.buscarPorCPF(documentoInput.getCpf());
 
-        if (documento.isPresent()) return documento.get();
+        if (documento.isPresent()){
+            return documento.get();
+        }
 
         Documento novoDocumento = new Documento();
         novoDocumento.setCpf(documentoInput.getCpf());
         novoDocumento.setRg(documentoInput.getRg());
         novoDocumento.setTituloEleitor(documentoInput.getTituloEleitor());
 
-        return novoDocumento;
+        return documentoRepository.save(novoDocumento);
     }
 
     public Page<PessoaOutputDto> findAll(int page,int size,String sortBy,String sortDir,String nome){

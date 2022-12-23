@@ -10,10 +10,10 @@ import com.br.service.everson.libraryapi.api.dto.output.PessoaOutputDto;
 public class PessoaStub {
 
     public static PessoaOutputDto getPessoaOutputDto(){
-        return new PessoaOutputDto(1L,"nome","social","mae","pai",new EnderecoOutputDto(),new DocumentoOutputDto());
+        return new PessoaOutputDto(1L,"joão","social","mae","pai",new EnderecoOutputDto(),new DocumentoOutputDto());
     }
 
     public static PessoaInputDto getPessoaInputDto(){
-        return new PessoaInputDto("pessoa","social","mae","pai",new EnderecoInputDto(),new DocumentoInputDto());
+        return new PessoaInputDto("carlos","social","mae","pai",new EnderecoInputDto(),new DocumentoInputDto());
     }
 }

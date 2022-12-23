@@ -28,6 +28,8 @@ class LibraryApiApplicationTests {
     protected Documento criacaoDeDocumentoParaTeste(){
         Documento documento = new Documento();
         documento.setCpf(CPF);
+        documento.setTituloEleitor("123");
+        documento.setRg("12345678");
         return documento;
     }
 
@@ -36,6 +38,9 @@ class LibraryApiApplicationTests {
         pessoa.setNome(faker.name().fullName());
         pessoa.setDocumento(doc);
         pessoa.setEndereco(criacaoDeEnderecoParaTeste());
+        pessoa.setNomeMae(faker.name().fullName());
+        pessoa.setNomeSocial(faker.name().fullName());
+        pessoa.setNomePai(faker.name().fullName());
         return pessoa;
     }
     protected Endereco criacaoDeEnderecoParaTeste(){

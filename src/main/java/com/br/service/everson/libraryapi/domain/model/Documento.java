@@ -25,4 +25,7 @@ public class Documento {
     @Column(name = "titulo_eleitor")
     private String tituloEleitor;
 
+    @OneToOne(mappedBy = "documento")
+    private Pessoa pessoa;
+
 }
