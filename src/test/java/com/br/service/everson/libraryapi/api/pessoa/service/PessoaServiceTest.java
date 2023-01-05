@@ -44,7 +44,7 @@ public class PessoaServiceTest extends LibraryApiApplicationTests {
         pessoaService.create(mapperConvert.mapEntityToDto(pessoa, PessoaInputDto.class));
     }
     @Test
-    void deveRetornarListaDePessoasPorNomeStatusIsOk() {
+    void deveRetornarListaDePessoasPorNome() {
 
         Page<PessoaOutputDto> pessoas = pessoaService.findAll(0,1,"id","asc",pessoa.getNome());
         assertFalse(pessoas.isEmpty());
