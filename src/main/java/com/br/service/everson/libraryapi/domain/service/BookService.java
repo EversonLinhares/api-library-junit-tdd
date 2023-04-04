@@ -18,17 +18,14 @@ public class BookService {
 
     private final BookRepository repository;
 
-    @Autowired
-    MapperConvert mapperConvert;
+    private final MapperConvert mapperConvert;
 
     public BookOutputDto create(BookInputDto bookInputDto) {
        if(repository.existsByTitle(bookInputDto.getTitle())){
            throw new BusinessException("O titulo já existe em outro livro");
        }
 
-       Book book = repository.save(mapperConvert.mapDtoToEntity(bookInputDto,Book.class));
-
-        return mapperConvert.mapEntityToDto(book, BookOutputDto.class);
+        return mapperConvert.mapEntityToDto(repository.save(mapperConvert.mapDtoToEntity(bookInputDto,Book.class)), BookOutputDto.class);
     }
 
     public List<BookOutputDto> findAll() {
