@@ -46,14 +46,14 @@ public class PessoaServiceTest extends LibraryApiApplicationTests {
     @Test
     void deveRetornarListaDePessoasPorNome() {
 
-        Page<PessoaOutputDto> pessoas = pessoaService.findAll(0,1,"id","asc",pessoa.getNome());
-        assertFalse(pessoas.isEmpty());
+        Page<PessoaOutputDto> pessoas = pessoaService.findAll(0,1,"id","ASC","pessoa para teste");
+        assertFalse(pessoas.getContent().isEmpty());
         assertEquals(pessoa.getNome(), pessoas.getContent().get(0).getNome());
     }
 
     @Test
     void deveRetornaListaVazia(){
-        Page<PessoaOutputDto> pessoas = pessoaService.findAll(0,1,"id","asc","nome errado");
+        Page<PessoaOutputDto> pessoas = pessoaService.findAll(0,1,"id","ASC","nome errado");
         assertTrue(pessoas.isEmpty());
 
     }

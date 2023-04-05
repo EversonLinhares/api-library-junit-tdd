@@ -66,9 +66,7 @@ public class PessoaService {
 
     public Page<PessoaOutputDto> findAll(int page,int size,String sortBy,String sortDir,String nome){
 
-    Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-            : Sort.by(sortBy).descending();
-    Pageable pageable = PageRequest.of(page, size, sort);
+    Pageable pageable = PageRequest.of(page, size, Sort.Direction.valueOf(sortDir), sortBy);
 
     Page<Pessoa> listaPessoas = pessoaRepository.findWithFilter(nome,pageable);
 

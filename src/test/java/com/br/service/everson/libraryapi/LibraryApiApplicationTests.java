@@ -35,7 +35,7 @@ class LibraryApiApplicationTests {
 
     protected Pessoa criacaoDePessoaParaTeste(Documento doc) {
         Pessoa pessoa = new Pessoa();
-        pessoa.setNome(faker.name().fullName());
+        pessoa.setNome("pessoa para teste");
         pessoa.setDocumento(doc);
         pessoa.setEndereco(criacaoDeEnderecoParaTeste());
         pessoa.setNomeMae(faker.name().fullName());
